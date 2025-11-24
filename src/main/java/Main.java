@@ -1,9 +1,12 @@
 
 import controller.DinosaurController;
+import model.dao.DinosaurDAO;
 import model.dao.ExcavationDAO;
 import model.dao.PaleontologistDAO;
+import model.entity.Dinosaur;
 import model.entity.Excavation;
 import model.entity.Paleontologist;
+import model.entity.Period;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class Main {
 
         ExcavationDAO excavationDAO = new ExcavationDAO();
         PaleontologistDAO paleontologistDAO = new PaleontologistDAO();
+        DinosaurDAO dinosaurDAO = new DinosaurDAO();
 
         // Crear y guardar Excavación
         Excavation e = new Excavation();
@@ -57,5 +61,30 @@ public class Main {
         for (Paleontologist p : listaSQL) {
             System.out.println("Encontrado: " + p.getName());
         }
+
+
+        // Extra 1: Borrado de un dinosaurio a través de una Query
+
+        String dinosaurioTemporal = "Dinosaurio Borrar";
+        Dinosaur tempDino = new Dinosaur();
+        tempDino.setName(dinosaurioTemporal);
+        tempDino.setHeight(1);
+        tempDino.setWeight(50);
+        tempDino.setLength(2);
+        tempDino.setIdPeriod(null);
+
+        dinosaurDAO.create(tempDino);
+        System.out.println("\nDinosaurio temporal creado: " + tempDino.getName());
+
+        System.out.println("\nEjecutando Borrado por Query");
+        dinosaurDAO.deleteDinosaurByName(dinosaurioTemporal);
+
+        System.out.println("\nVerificando todos los dinosaurios:");
+        dinosaurController.viewAllDinosaurs();
+
+
+        // Extra 2: Uso de HQL
+
+        dinosaurDAO.queryHQL();
     }
 }

@@ -51,4 +51,28 @@ public class DinosaurDAO implements InterfaceDAO<Dinosaur> {
         manager.remove(dDrop);
         manager.getTransaction().commit();
     }
+
+    public void deleteDinosaurByName(String name) {
+        manager.getTransaction().begin();
+
+        Query query = manager.createQuery("DELETE FROM Dinosaur d WHERE d.name = :name");
+        query.setParameter("name", name);
+
+        int deletedCount = query.executeUpdate();
+
+        manager.getTransaction().commit();
+        System.out.println("Dinosaurios borrados: " + deletedCount);
+    }
+
+    public void queryHQL() {
+        // En HQL se puede omitir el select:
+        String hql = "FROM Dinosaur d WHERE d.weight > 40";
+
+        List<Dinosaur> heavyDinos = manager.createQuery(hql, Dinosaur.class).getResultList();
+
+        System.out.println("\nHQL Query");
+        for (Dinosaur d : heavyDinos) {
+            System.out.println(d.getName());
+        }
+    }
 }
