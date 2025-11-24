@@ -3,6 +3,7 @@ package model.dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import model.entity.Excavation;
 import model.entity.Paleontologist;
 import jakarta.persistence.Query;
 import java.util.List;
@@ -47,5 +48,13 @@ public class PaleontologistDAO implements InterfaceDAO<Paleontologist> {
         Paleontologist pDrop = manager.find(Paleontologist.class, p.getId());
         manager.remove(pDrop);
         manager.getTransaction().commit();
+    }
+
+    public List<Paleontologist> findByExcavation(Excavation excavation) {
+
+        String jpql = "SELECT p FROM Paleontologist p WHERE p.excavation = :excavation";
+        return manager.createQuery(jpql, Paleontologist.class)
+                .setParameter("excavation", excavation)
+                .getResultList();
     }
 }
