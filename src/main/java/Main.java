@@ -40,5 +40,22 @@ public class Main {
         for (Paleontologist p : resultados) {
             System.out.println(" - " + p.getName());
         }
+
+
+        // Consultas Nominales (NamedQuery) con Inner Join y Subconsulta
+
+        String busqueda = "Norte";
+
+        System.out.println("\nPRUEBA 1: Usando JPQL");
+        List<Paleontologist> listaJPQL = paleontologistDAO.findByNameJPQL(busqueda);
+        for (Paleontologist p : listaJPQL) {
+            System.out.println("Encontrado: " + p.getName());
+        }
+
+        System.out.println("\nPRUEBA 2: Usando SQL Nativo");
+        List<Paleontologist> listaSQL = paleontologistDAO.findByNameSQL(busqueda);
+        for (Paleontologist p : listaSQL) {
+            System.out.println("Encontrado: " + p.getName());
+        }
     }
 }

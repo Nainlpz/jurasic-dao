@@ -4,6 +4,19 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "paleontologists")
+@NamedQueries({
+        @NamedQuery(
+                name = "Paleontologist.findByExcavationNameJPQL",
+                query = "SELECT p FROM Paleontologist p JOIN p.excavation e WHERE e.id IN (SELECT e2.id FROM Excavation e2 WHERE e2.name LIKE :namePattern)"
+        )
+})
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "Paleontologist.findByExcavationNameSQL",
+                query = "SELECT p.* FROM paleontologists p INNER JOIN excavation e ON p.id_excavation = e.id WHERE e.id IN (SELECT id FROM excavation WHERE name LIKE :namePattern)",
+                resultClass = Paleontologist.class
+        )
+})
 public class Paleontologist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

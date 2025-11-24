@@ -57,4 +57,16 @@ public class PaleontologistDAO implements InterfaceDAO<Paleontologist> {
                 .setParameter("excavation", excavation)
                 .getResultList();
     }
+
+    public List<Paleontologist> findByNameJPQL(String namePattern) {
+        return manager.createNamedQuery("Paleontologist.findByExcavationNameJPQL", Paleontologist.class)
+                .setParameter("namePattern", "%" + namePattern + "%")
+                .getResultList();
+    }
+
+    public List<Paleontologist> findByNameSQL(String namePattern) {
+        return manager.createNamedQuery("Paleontologist.findByExcavationNameSQL", Paleontologist.class)
+                .setParameter("namePattern", "%" + namePattern + "%")
+                .getResultList();
+    }
 }
